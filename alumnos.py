@@ -42,25 +42,22 @@ def menu_alumnos():
             print('5. Listado de aprobaciones')
             print('6. Listado de estado en el curso')
             print('7. Modificar estado de alumno')
-            print('0. Volver al menu pricipal')
+            print('0. Volver al menu pricipal\n')
             opcion = int(input('Elija opcion: '))
-            if opcion == 0:
-                break
-            elif opcion == 1:
-                agregar_alumno()
-            elif opcion == 2:
-                eliminar_alumno()
-            elif opcion == 3:
-                consultar_alumno()
-            elif opcion == 4:
-                listar_alumnos()
-            elif opcion == 5:
-                listar_aprobaciones()
-            elif opcion == 6:
-                listar_estado_curso()
-            elif opcion == 7:
-                modificar_estado()
+            if opcion in range(0,8):
+
+                if opcion == 0  : break
+                elif opcion == 1: agregar_alumno()
+                elif opcion == 2: eliminar_alumno()
+                elif opcion == 3: consultar_alumno()
+                elif opcion == 4: listar_alumnos()
+                elif opcion == 5: listar_aprobaciones()
+                elif opcion == 6: listar_estado_curso()
+                elif opcion == 7: modificar_estado()
+
+            else:
+                input('Opcion no encontrada.')             
         except ValueError:
-            print('Opcion invalida...')
+            input('Opcion invalida...')
 
             
