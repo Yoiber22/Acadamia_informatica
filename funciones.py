@@ -67,12 +67,7 @@ def calcular_edad(fecha):
     fecha_actual = datetime.now()
     fecha_nacimiento = datetime.strptime(fecha, FORMATO_FECHA)
     edad = fecha_actual.year - fecha_nacimiento.year
-    if fecha_actual.month < fecha_nacimiento.month:
-        edad -= 1
-    elif fecha_actual.month == fecha_nacimiento.month:
-        if fecha_actual.day < fecha_nacimiento.day:
-            edad -= 1
+    if fecha_actual.month < fecha_nacimiento.month or (fecha_actual.month == fecha_nacimiento.month and fecha_actual.day < fecha_nacimiento.day):  
+        edad -= 1 
+   
     return edad
-            
-# Nombre del archivo principal de todo proyecto
-# es: main.py
