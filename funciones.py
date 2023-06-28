@@ -36,6 +36,18 @@ def data_registro(nombre_archivo, clave): # Recisbe un string y un int
             return registro
         
     return None
+        
+def data_registro_nombre(nombre_archivo, nombre):
+    archivo = archivo.open(nombre_archivo,'r')
+    registros = archivo.readlines()
+    archivo.close()
+
+    for registro in registros:
+        registro = registro.split(',')
+        if registro[1].lower().strip('\n') == nombre.lower():
+            return registro
+        
+    return None
 
 def borrar_registros(nombre_archivo, codigo_borrar):
     archivo = open(nombre_archivo,'r')
