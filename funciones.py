@@ -5,9 +5,9 @@ clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 def titulo(string):
     largo = len(string)
-    print('-' * largo)
-    print(string)
-    print('-' * largo)
+    print(COLOR_TITULO+'-' * largo)
+    print(COLOR_TITULO+string)
+    print(COLOR_TITULO+'-' * largo)
     print()
 
 def existe_archivo(nom_archivo):
@@ -36,9 +36,15 @@ def data_registro(nombre_archivo, clave): # Recisbe un string y un int
             return registro
         
     return None
+
+def registros(nombre_archivo):
+    archivo = open(nombre_archivo,'r')
+    registros = archivo.readlines()
+    archivo.close()
+    return registros
         
 def data_registro_nombre(nombre_archivo, nombre):
-    archivo = archivo.open(nombre_archivo,'r')
+    archivo = archivo.open(nombre_archivo,'r',encoding='utf-8')
     registros = archivo.readlines()
     archivo.close()
 
@@ -50,7 +56,7 @@ def data_registro_nombre(nombre_archivo, nombre):
     return None
 
 def borrar_registros(nombre_archivo, codigo_borrar):
-    archivo = open(nombre_archivo,'r')
+    archivo = open(nombre_archivo,'r',encoding='utf-8')
     registros = archivo.readlines()
     archivo.close()
     archivo = open(nombre_archivo,'w',encoding='utf-8')
@@ -66,7 +72,7 @@ def validar_fecha(fecha):
         objeto_fecha = datetime.strptime(fecha, FORMATO_FECHA)    
         return True
     except ValueError:
-        return 
+        return False
     
 def validar_hora(hora):
     try:
