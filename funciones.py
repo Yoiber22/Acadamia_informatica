@@ -2,6 +2,7 @@ from config import *
 
 
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+pausa = lambda: input(COLOR_DESTACAR+'\nPulse enter para continuar')
 
 def titulo(string):
     largo = len(string)
