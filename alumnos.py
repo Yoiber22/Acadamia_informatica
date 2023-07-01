@@ -43,6 +43,8 @@ def agregar_alumno():
                 if validar_fecha(fecha_ingreso):
                     fecha_ingreso = datetime.strptime(fecha_ingreso,FORMATO_FECHA)
                     if fecha_ingreso <= fecha_actual:
+                        fecha_ingreso_formato = fecha_ingreso.strftime(FORMATO_FECHA)
+
                         break
                     else:
                         input(COLOR_ERROR+'La fecha deve ser anterior a la actual')
@@ -86,14 +88,14 @@ def agregar_alumno():
             print('Apellido        : ',apellido_alumno)
             print('Fecha nacimeieto: ',fecha_nac)
             print('Edad            : ',edad_alumno)
-            print('Fecha igreso    : ',fecha_ingreso)
+            print('Fecha igreso    : ',fecha_ingreso_formato)
             print('Curso asiste    : ',nombre_curso)
             print('Nota curso      : ',nota_alumno)
             print('Estado          : ',estado_alumno)
 
             if input(COLOR_INPUT+'¿Desea ingresar a este alumno? (s/n): ').lower() =='s':
                 archivo = open(direc_alumnos,'a',encoding='utf-8')
-                registro = f'{id_alumno},{nombre_alumno},{apellido_alumno},{fecha_nac},{edad_alumno},{fecha_ingreso},{curso_asiste},{nota_alumno},{estado_alumno}\n'
+                registro = f'{id_alumno},{nombre_alumno},{apellido_alumno},{fecha_nac},{edad_alumno},{fecha_ingreso_formato},{curso_asiste},{nota_alumno},{estado_alumno}\n'
                 archivo.write(registro)
                 archivo.close()
                 print(COLOR_DESTACAR+'\nAlumno agregado existosamente\n')
@@ -115,17 +117,22 @@ def eliminar_alumno():
                 clear()
                 titulo('Eliminar alumno')
                 id_borrar = int(input(COLOR_INPUT+'Ingrese ID de alumno a eliminar: '))
-                cant_alumnos = ultima_clave(direc_alumnos) + 1
-                if id_borrar in range(0,cant_alumnos):
-                    nombre_alumno = data_registro(direc_alumnos,id_borrar)[1]
-                    apellido_alumno = data_registro(direc_alumnos,id_borrar)[2]
+                max_clave_alumnos = max([int(registro[0]) for registro in registro_alumnos])
+                if id_borrar in range(0,max_clave_alumnos + 1):
+                    registro_alumno = data_registro(direc_alumnos,id_borrar)
 
-                    if input(COLOR_INPUT+f'¿Seguro desea eliminar a {nombre_alumno} {apellido_alumno}? (s/n): ').lower() =='s':
-                        borrar_registros(direc_alumnos,id_borrar)
-                        print(COLOR_DESTACAR+'Alumno eliminado exitosamente.')
+                    if registro_alumno is not None:
+                        nombre_alumno = registro_alumno[1]
+                        apellido_alumno = registro_alumno[2]
+
+                        if input(COLOR_INPUT+f'¿Seguro desea eliminar a {nombre_alumno} {apellido_alumno}? (s/n): ').lower() =='s':
+                            borrar_registros(direc_alumnos,id_borrar)
+                            print(COLOR_DESTACAR+'Alumno eliminado exitosamente.')
+                        else:
+                            print(COLOR_DESTACAR+'Borrardo cancelado.') 
                     else:
-                        print(COLOR_DESTACAR+'Borrardo cancelado.') 
-
+                        input(COLOR_ERROR+'Alumno no encontrado.')
+                        
                     if input(COLOR_INPUT+'¿Desea eliminar a otro alumno? (s/n): ').lower() !='s':
                         break
                 else:
@@ -349,10 +356,11 @@ def modificar_alumno():
 
                             elif opcion == 4:
                                 while True:
-                                    nueva_fecha_ingeso = input(COLOR_INPUT+'Ingrese fecha de ingreso (dd/mm/aaaa): ')
-                                    if validar_fecha(nueva_fecha_ingeso):
-                                        nueva_fecha_ingeso = datetime.strptime(nueva_fecha_ingeso,FORMATO_FECHA)
-                                        if nueva_fecha_ingeso <= fecha_actual:
+                                    nueva_fecha_in = input(COLOR_INPUT+'Ingrese fecha de ingreso (dd/mm/aaaa): ')
+                                    if validar_fecha(nueva_fecha_in):
+                                        nueva_fecha_in = datetime.strptime(nueva_fecha_in,FORMATO_FECHA)
+                                        if nueva_fecha_in <= fecha_actual:
+                                            nueva_fecha_ingeso = nueva_fecha_in.strftime(FORMATO_FECHA)
                                             break
                                         else:
                                             input(COLOR_ERROR+'La fecha deve ser anterior a la actual')
@@ -427,6 +435,7 @@ def modificar_alumno():
     else:
         input(COLOR_ERROR+('No hay alumnos.'))
 
+
 def menu_listados():
     while True:
         try:
@@ -475,7 +484,7 @@ def menu_alumnos():
                 else:
                     input(COLOR_ERROR+'Opcion no encontrada.')             
             except ValueError:
-                input(COLOR_ERROR+'Opcion invalida...')
+                input(COLOR_ERROR+'Opcion invalida.')
     else:
         input(COLOR_ERROR+'Por favor agregue un curso antes de continuar.')
 
