@@ -26,10 +26,13 @@ def agregar_cursos():
             print('Nro curso: ',id_curso)
             while True:
                 nombre_curso = input(COLOR_INPUT+'Ingrese nombre: ').title()
-                if len(nombre_curso) > 0 and verificar_nombre_curso(nombre_curso):
-                    break
+                if len(nombre_curso) > 0:
+                    if not verificar_nombre_curso(nombre_curso):
+                        break
+                    else:
+                        print(COLOR_ERROR+f'El nombre {nombre_curso} ya fue ingresado.')
                 else:
-                    print(COLOR_ERROR+'Campo obligatorio.')
+                    print(COLOR_ERROR+'Campo obligatorio')
 
             if input(COLOR_INPUT+'¿Desea agregar este curso? (s/n): ').lower() =='s':
                 archivo = open(direc_cursos,'a',encoding='utf-8')
@@ -49,31 +52,35 @@ def agregar_cursos():
             agregar_cursos()
 
 def eliminar_cursos():
-    # Elimina un curso que no esta siedo cursado 
-    # por ningun alumno
+    # Elimina un curso que no está siendo cursado 
+    # por ningún alumno
     if existe_archivo(direc_cursos) and len(registro_cursos) > 0:
         while True:
             try:
                 clear()
-                titulo('Elimanar curso')
+                titulo('Eliminar curso')
                 id_borrar = int(input(COLOR_INPUT+'Ingrese ID de curso a borrar: '))
-                if not alumnos_curso(direc_alumnos,id_borrar):
-                    nombre_curso = data_registro(direc_cursos,id_borrar)[1]
-                    print('Curso a borrar: ',nombre_curso)
+                if not alumnos_curso(direc_alumnos, id_borrar):
+                    curso = data_registro(direc_cursos, id_borrar)
+                    if curso is not None:
+                        nombre_curso = curso[1].rstrip('\n')
+                        print('Curso a borrar: ', nombre_curso)
 
-                    if input(COLOR_INPUT+'¿Seguro desea borrar este curso? (s/n): ').lower() =='s':
-                        borrar_registros(direc_cursos,id_borrar)
-                        print(COLOR_DESTACAR+'\nCurso borrado exitosmente\n')
+                        if input(COLOR_INPUT+'¿Seguro desea borrar este curso? (s/n): ').lower() == 's':
+                            borrar_registros(direc_cursos, id_borrar)
+                            print(COLOR_DESTACAR+'\nCurso borrado exitosamente\n')
+                        else:
+                            input(COLOR_DESTACAR+'Borrado cancelado.')
                     else:
-                        input(COLOR_DESTACAR+'Borrrado cancelado.')
+                        input(COLOR_ERROR+'ID de curso inválido.')
                 else:
                     input(COLOR_ERROR+'Hay alumnos en este curso.')
 
-                if input(COLOR_INPUT+'¿Desea eliminar otro curso? (s/n): ').lower() !='s':
+                if input(COLOR_INPUT+'¿Desea eliminar otro curso? (s/n): ').lower() != 's':
                     break
 
             except ValueError:
-                input(COLOR_ERROR+'ID invalida.')
+                input(COLOR_ERROR+'ID inválido.')
     else:
         input(COLOR_ERROR+'No hay cursos para eliminar.')
         menu_cursos()
@@ -97,7 +104,7 @@ def listar_cursos():
             print(tabulate(lista_registros,headers=encabezado,tablefmt='rounded_outline',numalign='center'))
             print()
             pausa()
-            
+
         else:
             input(COLOR_ERROR+'No se encontraron cursos.')
     else:
@@ -111,7 +118,7 @@ def alumnos_curso(nombre_archivo,id_curso):
     archivo.close()
     for alumno in alumnos:
         alumno = alumno.split(',')
-        if int(alumno[5]) == id_curso:
+        if int(alumno[6]) == id_curso:
             return True
     return False
 
