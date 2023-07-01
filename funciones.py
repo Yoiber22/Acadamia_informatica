@@ -23,8 +23,8 @@ def ultima_clave(nom_archivo):
     archivo = open(nom_archivo,'r')
     registros = archivo.readlines()
     archivo.close()
-    ultima_clave = len(registros)
-    return ultima_clave
+    ultima_clave_alumnos = max([int(registro[0]) for registro in registros])
+    return ultima_clave_alumnos
 
 def data_registro(nombre_archivo, clave): # Recisbe un string y un int
     archivo = open(nombre_archivo,'r')
@@ -45,7 +45,7 @@ def registros(nombre_archivo):
     return registros
         
 def data_registro_nombre(nombre_archivo, nombre):
-    archivo = archivo.open(nombre_archivo,'r',encoding='utf-8')
+    archivo = open(nombre_archivo,'r',encoding='utf-8')
     registros = archivo.readlines()
     archivo.close()
 
