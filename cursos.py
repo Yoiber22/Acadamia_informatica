@@ -1,8 +1,5 @@
 from funciones import *
 
-if existe_archivo(direc_cursos):
-    registro_cursos = registros(direc_cursos)
-
 def verificar_nombre_curso(nombre):
     archivo = open(direc_cursos,'r')
     cursos = archivo.readlines()
@@ -54,7 +51,7 @@ def agregar_cursos():
 def eliminar_cursos():
     # Elimina un curso que no está siendo cursado 
     # por ningún alumno
-    if existe_archivo(direc_cursos) and len(registro_cursos) > 0:
+    if existe_archivo(direc_cursos):
         while True:
             try:
                 clear()
