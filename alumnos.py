@@ -309,7 +309,7 @@ def modificar_alumno():
                     nueva_fecha_ingeso = data_alumno[5]
                     nuevo_curso        = data_alumno[6]
                     nueva_nota         = data_alumno[7]
-                    nuevo_estado       = data_alumno[-1]
+                    nuevo_estado       = data_alumno[-1].rstrip('\n')
 
                     while True:
                         try:
