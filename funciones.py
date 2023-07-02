@@ -1,6 +1,5 @@
 from config import *
 
-
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 pausa = lambda: input(COLOR_DESTACAR+'\nPulse enter para continuar')
 
@@ -23,8 +22,10 @@ def ultima_clave(nom_archivo):
     archivo = open(nom_archivo,'r')
     registros = archivo.readlines()
     archivo.close()
-    ultima_clave_alumnos = max([int(registro[0]) for registro in registros])
-    return ultima_clave_alumnos
+    if len(registros) == 0:
+        return 0
+    ultima_clave = max([int(registro.split(',')[0]) for registro in registros])
+    return ultima_clave
 
 def data_registro(nombre_archivo, clave): # Recisbe un string y un int
     archivo = open(nombre_archivo,'r')
